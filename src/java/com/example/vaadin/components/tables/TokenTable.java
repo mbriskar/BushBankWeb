@@ -28,6 +28,7 @@ public final class TokenTable extends VerticalLayout {
     public TokenTable(List<Token> tokens) {
         this.tokens = tokens;
         final Label value = new Label("Tokeny");
+        value.setStyleName("tableTitle");
         
         setSpacing(true);
 
@@ -54,7 +55,7 @@ public final class TokenTable extends VerticalLayout {
         table.setStyleName("iso3166");
 
         // size
-        table.setWidth("30%");
+        table.setWidth(Sizeable.SIZE_UNDEFINED, 0);
         table.setHeight("170px");
 
         // selectable

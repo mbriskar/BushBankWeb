@@ -4,6 +4,7 @@
  */
 package com.example.vaadin.components.tables;
 
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
@@ -26,6 +27,8 @@ public class PhraseTable extends VerticalLayout {
         setSpacing(true);
         final Label value = new Label("Frázy");
         addComponent(value);
+        value.setStyleName("tableTitle");
+ 
         setComponentAlignment(value, Alignment.TOP_CENTER);
         addComponent(table);
         setComponentAlignment(table, Alignment.MIDDLE_CENTER);
@@ -50,7 +53,7 @@ public class PhraseTable extends VerticalLayout {
         table.setStyleName("iso3166");
 
         // size
-        table.setWidth("30%");
+        table.setWidth(Sizeable.SIZE_UNDEFINED, 0);
         table.setHeight("170px");
 
         // selectable

@@ -4,6 +4,7 @@
  */
 package com.example.vaadin.components;
 
+import com.example.vaadin.components.tables.AnaphoraTable;
 import com.example.vaadin.components.tables.PhraseTable;
 import com.example.vaadin.components.tables.TokenTable;
 import com.vaadin.terminal.Sizeable;
@@ -12,6 +13,7 @@ import com.vaadin.ui.HorizontalLayout;
 import org.bushbank.bushbank.core.Sentence;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import java.util.List;
 
 /**
  *
@@ -23,20 +25,26 @@ public final class CorpusDataComponent extends VerticalLayout {
     Label sentenceString;
     TokenTable tokenTable;
     PhraseTable phraseTable;
+    AnaphoraTable anaphoraTable;
 
-    public CorpusDataComponent(Sentence s) {
-        sentence = s;
-        tokenTable = new TokenTable(s.getTokens());
-        phraseTable = new PhraseTable(s.getPhrases());
+    public CorpusDataComponent(List<Sentence> beforeSentences) {
+        Sentence thisSentence = beforeSentences.get(beforeSentences.size() -1);
+        sentence = thisSentence;
+        tokenTable = new TokenTable(sentence.getTokens());
+        phraseTable = new PhraseTable(sentence.getPhrases());
+        anaphoraTable = new AnaphoraTable(sentence.getAnaphoras(),beforeSentences);
         sentenceString= new Label(sentence.toString());
+        sentenceString.setStyleName("sentence");
         draw();
 
     }
 
-    public void setSentence(Sentence s) {
-        sentence = s;
-        tokenTable.setTokens(s.getTokens());
-        phraseTable.setPhrases(s.getPhrases());
+    public void setSentences(List<Sentence> beforeSentences) {
+        Sentence thisSentence = beforeSentences.get(beforeSentences.size() -1);
+        sentence = thisSentence;
+        tokenTable.setTokens(sentence.getTokens());
+        phraseTable.setPhrases(sentence.getPhrases());
+        anaphoraTable.sentenceChanged(sentence.getAnaphoras(),beforeSentences);
         sentenceString.setValue(sentence);
         
     }
@@ -45,7 +53,6 @@ public final class CorpusDataComponent extends VerticalLayout {
 
 
         setSpacing(true);
-        sentenceString = new Label(sentence.toString());
         sentenceString.setWidth(Sizeable.SIZE_UNDEFINED, 0);
         addComponent(sentenceString);
         setComponentAlignment(sentenceString, Alignment.TOP_CENTER);
@@ -53,18 +60,27 @@ public final class CorpusDataComponent extends VerticalLayout {
 
         //top tables
         HorizontalLayout topTables = new HorizontalLayout();
+        topTables.setStyleName("spacingexample");
         //topTables.setSizeFull();
         topTables.setWidth(Sizeable.SIZE_UNDEFINED, 0);
         topTables.setSpacing(true);
+        
+        
         addComponent(topTables);
+        setComponentAlignment(topTables, Alignment.MIDDLE_CENTER);
 
         //tables  
+       
         topTables.addComponent(tokenTable);
         topTables.setComponentAlignment(tokenTable, Alignment.TOP_LEFT);
-        
+
 
         topTables.addComponent(phraseTable);
         topTables.setComponentAlignment(phraseTable, Alignment.TOP_CENTER);
+        
+         topTables.addComponent(anaphoraTable);
+        topTables.setComponentAlignment(anaphoraTable, Alignment.TOP_RIGHT);
+
         
         
         

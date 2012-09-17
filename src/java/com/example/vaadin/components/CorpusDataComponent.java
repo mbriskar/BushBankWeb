@@ -7,6 +7,7 @@ package com.example.vaadin.components;
 import com.example.vaadin.components.tables.AnaphoraTable;
 import com.example.vaadin.components.tables.PhraseTable;
 import com.example.vaadin.components.tables.TokenTable;
+import com.example.vaadin.corpusManager.NxtCorpusManager;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
@@ -27,12 +28,12 @@ public final class CorpusDataComponent extends VerticalLayout {
     PhraseTable phraseTable;
     AnaphoraTable anaphoraTable;
 
-    public CorpusDataComponent(List<Sentence> beforeSentences) {
+    public CorpusDataComponent(List<Sentence> beforeSentences,NxtCorpusManager corpus) {
         Sentence thisSentence = beforeSentences.get(beforeSentences.size() -1);
         sentence = thisSentence;
         tokenTable = new TokenTable(sentence.getTokens());
         phraseTable = new PhraseTable(sentence.getPhrases());
-        anaphoraTable = new AnaphoraTable(sentence.getAnaphoras(),beforeSentences);
+        anaphoraTable = new AnaphoraTable(beforeSentences,corpus);
         sentenceString= new Label(sentence.toString());
         sentenceString.setStyleName("sentence");
         draw();
@@ -44,7 +45,7 @@ public final class CorpusDataComponent extends VerticalLayout {
         sentence = thisSentence;
         tokenTable.setTokens(sentence.getTokens());
         phraseTable.setPhrases(sentence.getPhrases());
-        anaphoraTable.sentenceChanged(sentence.getAnaphoras(),beforeSentences);
+        anaphoraTable.sentenceChanged(beforeSentences);
         sentenceString.setValue(sentence);
         
     }

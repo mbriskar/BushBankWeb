@@ -71,7 +71,7 @@ public class PhraseTable extends VerticalLayout {
         int i =1;
         for (Phrase p : phrases) {
             table.addItem(new Object[]{
-                        i, p.getTokens().toString(), p.getGrammarTag(), p.getSemantic(), p.getValidityStatus()}, new Integer(i));
+                        i, p.toString(), p.getGrammarTag(), p.getSemantic(), p.getValidityStatus()}, new Integer(i));
             i++;
 
         }

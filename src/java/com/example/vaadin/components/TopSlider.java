@@ -39,7 +39,7 @@ public class TopSlider extends VerticalLayout {
 
             public void valueChange(ValueChangeEvent event) {
                 value.setValue(((Double)event.getProperty().getValue()).intValue());
-                app.sliderValueChanged(((Double)event.getProperty().getValue()).intValue());
+                app.sentenceChanged(((Double)event.getProperty().getValue()).intValue());
             }
         });
 

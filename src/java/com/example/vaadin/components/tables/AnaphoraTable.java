@@ -137,6 +137,7 @@ public class AnaphoraTable extends VerticalLayout {
             for(Sentence s : threeLastSentences) {
                 for (Token t : s.getTokens()) {
                     //TODO: iba zámená
+                    
                     tokensCombo.addItem(t.getWordForm());
                 }
             }

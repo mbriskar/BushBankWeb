@@ -28,6 +28,7 @@ public class TopSlider extends VerticalLayout {
         setWidth("100%");
 
         final Label value = new Label("1");
+        value.setStyleName("topSentenceNumber");
         value.setWidth("3em");
 
         slider = new Slider("Vyber vetu od 1 do " + max);

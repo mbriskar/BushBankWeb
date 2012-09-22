@@ -26,6 +26,11 @@
     line-height: normal;
 }
 
+.popupTitle {
+    font-size: 16px;
+    line-height: normal;
+}
+
 .v-horizontallayout-spacingTables .v-horizontallayout-spacing-on {
     padding-left: 40px;
 }

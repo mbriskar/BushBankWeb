@@ -23,7 +23,9 @@ import java.util.Set;
 import org.bushbank.bushbank.core.Phrase;
 
 /**
- * Responsible for: 1.Title above the table 2.Table 3.Buttons under the table
+ * Responsible for: 1.Title above the table 
+ *                  2.Table 
+ *                  3.Buttons under the table
  *
  * @author Mato
  */
@@ -35,15 +37,17 @@ public class PhraseTable extends VerticalLayout {
     final PopupView addSemanticPopup;
     private static String cssTableTitle = "tableTitle";
 
+    /*
+     * Create title,table,buttons. 
+     */
     public PhraseTable(List<Phrase> phrases) {
         this.phrases = phrases;
         setSpacing(true);
         final Label value = new Label("Frázy");
         addComponent(value);
-        value.setStyleName(cssTableTitle);
-
         setComponentAlignment(value, Alignment.TOP_CENTER);
-
+        value.setStyleName(cssTableTitle);
+        
         //init table
         addComponent(table);
         table.setSelectable(true);
@@ -67,10 +71,11 @@ public class PhraseTable extends VerticalLayout {
         });
         setComponentAlignment(table, Alignment.MIDDLE_CENTER);
 
-        //init buttons
+        //init all the buttons
         HorizontalLayout buttons = new HorizontalLayout();
         addComponent(buttons);
         buttons.setSizeFull();
+        //1. Button for adding semantic attribute
         Button addSemantic = new Button("přidej sémantický atribút");
         buttons.addComponent(addSemantic);
         buttons.setComponentAlignment(addSemantic, Alignment.MIDDLE_LEFT);
@@ -89,6 +94,7 @@ public class PhraseTable extends VerticalLayout {
             }
         });
 
+        //2. Button for deleting semantic attribute
         Button removeSemantic = new Button("odstraň sémantický atribút");
         buttons.addComponent(removeSemantic);
         buttons.setComponentAlignment(removeSemantic, Alignment.MIDDLE_RIGHT);
@@ -109,11 +115,17 @@ public class PhraseTable extends VerticalLayout {
 
     }
 
+    /*
+     * called when phrases are changed. Table is filled again.
+     */
     public void setPhrases(List<Phrase> phrases) {
         this.phrases = phrases;
         fillTable();
     }
 
+    /*
+     * Fill the table. Function is called after every change.
+     */
     private void fillTable() {
         table.removeAllItems();
         int i = 1;
@@ -126,6 +138,9 @@ public class PhraseTable extends VerticalLayout {
         table.setRowHeaderMode(Table.ROW_HEADER_MODE_ICON_ONLY);
     }
 
+    /*
+     * Returns the already selected phrase in table.
+     */
     private Phrase getSelectedPhrase() {
         Object rowSelected = table.getValue();
         Property containerProperty = table.getContainerProperty(rowSelected, "ID");
@@ -160,6 +175,8 @@ public class PhraseTable extends VerticalLayout {
             semanticAttributeField.setImmediate(true);
             root.addComponent(semanticAttributeField);
             Button savePhrase = new Button("Pridaj");
+            root.addComponent(savePhrase);
+            root.setComponentAlignment(savePhrase, Alignment.MIDDLE_CENTER);
             savePhrase.addListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
@@ -175,9 +192,6 @@ public class PhraseTable extends VerticalLayout {
                     }
                 }
             });
-
-            root.addComponent(savePhrase);
-            root.setComponentAlignment(savePhrase, Alignment.MIDDLE_CENTER);
         }
 
         @Override
@@ -190,6 +204,9 @@ public class PhraseTable extends VerticalLayout {
         }
     }
 
+    /*
+     * Popup content of deleting semantic attribute.
+     */
     private class DeleteSemanticPopUp implements Content {
 
         private VerticalLayout root = new VerticalLayout();
@@ -202,6 +219,8 @@ public class PhraseTable extends VerticalLayout {
             root.setMargin(true);
             root.addComponent(attributesCombo);
             Button deleteAttribute = new Button("Odstráň");
+            root.addComponent(deleteAttribute);
+            root.setComponentAlignment(deleteAttribute, Alignment.MIDDLE_CENTER);
             deleteAttribute.addListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
@@ -216,9 +235,6 @@ public class PhraseTable extends VerticalLayout {
                     }
                 }
             });
-
-            root.addComponent(deleteAttribute);
-            root.setComponentAlignment(deleteAttribute, Alignment.MIDDLE_CENTER);
         }
 
         private void fillSemanticAttributes() {
@@ -231,6 +247,7 @@ public class PhraseTable extends VerticalLayout {
         }
 
         public void rowChanged() {
+            attributesCombo.removeAllItems();
             fillSemanticAttributes();
         }
 

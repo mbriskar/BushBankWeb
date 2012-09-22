@@ -4,7 +4,6 @@
  */
 package com.example.vaadin.components.tables;
 
-import com.vaadin.data.Property;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
@@ -12,11 +11,12 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.bushbank.bushbank.core.Token;
 
 /**
- * Responsible for: 1.Title above the table 2.Table 3.Buttons under the table
+ * Responsible for: 1.Title above the table 
+ *                  2.Table 
+ *                  3.Buttons under the table
  *
  * @author Mato
  */
@@ -46,28 +46,19 @@ public final class TokenTable extends VerticalLayout {
         fillTable();
     }
 
+    /*
+     * Fill the table. Function is called after every change.
+     */
     public void fillTable() {
-
         table.removeAllItems();
-
-        
-
-        // set a style name, so we can style rows and cells
         table.setStyleName("iso3166");
-
-        // size
         table.setWidth(Sizeable.SIZE_UNDEFINED, 0);
         table.setHeight("170px");
-
-        // selectable
-        //table.setSelectable(true);
-
-        table.setImmediate(true); // react at once when something is selected
-
+        table.setImmediate(true);
+        
         table.addContainerProperty("Poradie", String.class, null);
         table.addContainerProperty("Slovo", String.class, null);
         table.addContainerProperty("Morfológia", String.class, null);
-        // connect data source
         int i =1;
         for (Token t : tokens) {
             table.addItem(new Object[]{
@@ -75,10 +66,6 @@ public final class TokenTable extends VerticalLayout {
             i++;
 
         }
-
         table.setRowHeaderMode(Table.ROW_HEADER_MODE_ICON_ONLY);
-        
-
-
     }
 }

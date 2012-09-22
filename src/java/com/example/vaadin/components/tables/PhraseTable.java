@@ -238,6 +238,7 @@ public class PhraseTable extends VerticalLayout {
         }
 
         private void fillSemanticAttributes() {
+            attributesCombo.removeAllItems();
             selectedPhrase = getSelectedPhrase();
             if (selectedPhrase != null) {
                 for (String attribute : selectedPhrase.getSemantic()) {
@@ -247,7 +248,6 @@ public class PhraseTable extends VerticalLayout {
         }
 
         public void rowChanged() {
-            attributesCombo.removeAllItems();
             fillSemanticAttributes();
         }
 

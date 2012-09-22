@@ -107,4 +107,8 @@ public class NxtCorpusManager {
         }
         return position+1;
     }
+
+    public void deleteAnaphora(Anaphora selectedAnaphora) {
+        corpus.deleteObject(selectedAnaphora.getId());
+    }
 }

@@ -16,6 +16,7 @@ import java.util.Set;
 import org.bushbank.bushbank.core.Token;
 
 /**
+ * Responsible for: 1.Title above the table 2.Table 3.Buttons under the table
  *
  * @author Mato
  */

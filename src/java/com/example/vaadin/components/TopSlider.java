@@ -20,15 +20,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @SuppressWarnings("serial")
+
 public class TopSlider extends VerticalLayout {
 
     final Slider slider;
+    
+    private static String topSentenceNumberCss = "topSentenceNumber";
+    
     public TopSlider(int max,final BushBank app) {
         setSpacing(true);
         setWidth("100%");
 
         final Label value = new Label("1");
-        value.setStyleName("topSentenceNumber");
+        value.setStyleName(topSentenceNumberCss);
         value.setWidth("3em");
 
         slider = new Slider("Vyber vetu od 1 do " + max);

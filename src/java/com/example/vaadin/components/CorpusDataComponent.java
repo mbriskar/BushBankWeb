@@ -27,66 +27,52 @@ public final class CorpusDataComponent extends VerticalLayout {
     TokenTable tokenTable;
     PhraseTable phraseTable;
     AnaphoraTable anaphoraTable;
+    private static String sentenceCss = "sentence";
+    private static String tableSpacingCss = "spacingTables";
 
-    public CorpusDataComponent(List<Sentence> beforeSentences,NxtCorpusManager corpus) {
-        Sentence thisSentence = beforeSentences.get(beforeSentences.size() -1);
+    public CorpusDataComponent(List<Sentence> beforeSentences, NxtCorpusManager corpus) {
+        Sentence thisSentence = beforeSentences.get(beforeSentences.size() - 1);
         sentence = thisSentence;
         tokenTable = new TokenTable(sentence.getTokens());
         phraseTable = new PhraseTable(sentence.getPhrases());
-        anaphoraTable = new AnaphoraTable(beforeSentences,corpus);
-        sentenceString= new Label(sentence.toString());
-        sentenceString.setStyleName("sentence");
+        anaphoraTable = new AnaphoraTable(beforeSentences, corpus);
+        sentenceString = new Label(sentence.toString());
+        sentenceString.setStyleName(sentenceCss);
         draw();
-
     }
 
     public void setSentences(List<Sentence> beforeSentences) {
-        Sentence thisSentence = beforeSentences.get(beforeSentences.size() -1);
+        Sentence thisSentence = beforeSentences.get(beforeSentences.size() - 1);
         sentence = thisSentence;
         tokenTable.setTokens(sentence.getTokens());
         phraseTable.setPhrases(sentence.getPhrases());
         anaphoraTable.sentenceChanged(beforeSentences);
         sentenceString.setValue(sentence);
-        
     }
 
     public void draw() {
-
-
         setSpacing(true);
         sentenceString.setWidth(Sizeable.SIZE_UNDEFINED, 0);
         addComponent(sentenceString);
         setComponentAlignment(sentenceString, Alignment.TOP_CENTER);
 
-
         //top tables
         HorizontalLayout topTables = new HorizontalLayout();
-        topTables.setStyleName("spacingexample");
-        //topTables.setSizeFull();
+        topTables.setStyleName(tableSpacingCss);
         topTables.setWidth(Sizeable.SIZE_UNDEFINED, 0);
         topTables.setSpacing(true);
-        
-        
         addComponent(topTables);
         setComponentAlignment(topTables, Alignment.MIDDLE_CENTER);
 
-        //tables  
-       
+        //tables        
         topTables.addComponent(tokenTable);
         topTables.setComponentAlignment(tokenTable, Alignment.TOP_LEFT);
-
 
         topTables.addComponent(phraseTable);
         topTables.setComponentAlignment(phraseTable, Alignment.TOP_CENTER);
         
-         topTables.addComponent(anaphoraTable);
+        topTables.addComponent(anaphoraTable);
         topTables.setComponentAlignment(anaphoraTable, Alignment.TOP_RIGHT);
-
-        
-        
-        
-        
-
 
     }
 }

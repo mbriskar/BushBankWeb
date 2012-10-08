@@ -11,12 +11,8 @@ import com.example.vaadin.corpusManager.NxtCorpusManager;
 import com.vaadin.Application;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Window.CloseEvent;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bushbank.bushbank.core.Sentence;
 
 /**
@@ -45,39 +41,40 @@ public class BushBank extends Application {
         corpus = new NxtCorpusManager(praseXmlPath, observation,this);
         slider = new TopSlider(corpus.getSentenceCount(), this);
         mainWindow.addComponent(slider);
-        List<Sentence> threeLastSentences = new ArrayList<Sentence>();
         //this is first
-        threeLastSentences.add(corpus.getSentence(0));
-        data = new CorpusDataComponent(threeLastSentences, corpus);
+        Sentence thisSentence = corpus.getSentence(0);
+        data = new CorpusDataComponent(null,thisSentence, corpus.getSentence(1), corpus);
         mainWindow.addComponent(data);
         mainWindow.addListener(new Window.CloseListener() {
             private static final long serialVersionUID = 1L;
-
             @Override
             public void windowClose(CloseEvent e) {
                 corpus.saveChanges();
             }
         });
 
-
-
     }
     
 
 
     public void sentenceChanged(int intValue) {
-        List<Sentence> threeLastSentences = new ArrayList<Sentence>();
+        List<Sentence> beforeSentences = new ArrayList<Sentence>();
+        Sentence thisSentence=null;
+        Sentence afterSentence=null;
         if ((intValue - 3) >= 0) {
-            threeLastSentences.add(corpus.getSentence(intValue - 3));
+            beforeSentences.add(corpus.getSentence(intValue - 3));
         }
         if ((intValue - 2) >= 0) {
-            threeLastSentences.add(corpus.getSentence(intValue - 2));
+            beforeSentences.add(corpus.getSentence(intValue - 2));
         }
         if ((intValue - 1) >= 0) {
-            threeLastSentences.add(corpus.getSentence(intValue - 1));
+            thisSentence=corpus.getSentence(intValue - 1);
         }
-
-        data.setSentences(threeLastSentences);
+        
+        if(intValue < corpus.getSentenceCount()) {
+            afterSentence=corpus.getSentence(intValue);
+        }
+        data.setSentences(beforeSentences,thisSentence,afterSentence);
     }
     
     

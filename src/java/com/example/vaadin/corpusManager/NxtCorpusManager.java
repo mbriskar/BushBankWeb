@@ -44,19 +44,19 @@ public class NxtCorpusManager {
         return corpus.getSentence(position);
     }
 
-    public void trySaveAnaphora(String tokenWord, String phraseWords, List<Sentence> threeLastSentences) {
+    public void trySaveAnaphora(Token pointer, Token target, Sentence parentSentence) {
         //Token and selected phrase
-        Sentence thisSentence = threeLastSentences.get(threeLastSentences.size() - 1);
-        Token token = findToken(tokenWord, threeLastSentences);
-        Phrase phrase = findPhrase(phraseWords, thisSentence);
-        Anaphora anaphora = new Anaphora("1", token, phrase);
+
+        Anaphora anaphora = new Anaphora("1");
+        anaphora.setPointer(pointer);
+        anaphora.setTarget(target);
         if(corpus.trySaveAnaphora(anaphora)) {
-            thisSentence.addAnaphora(anaphora);
-            application.sentenceChanged(getSentencePosition(thisSentence));
+            parentSentence.addAnaphora(anaphora);
+            application.sentenceChanged(getSentencePosition(parentSentence));
         }
         
     }
-
+/*
     public void trySaveAnaphora(String wordForm, String phraseWords, Sentence sentence) {
         //missingToken and selected phrase
         MissingToken token = new MissingToken(wordForm, wordForm);
@@ -67,7 +67,7 @@ public class NxtCorpusManager {
              application.sentenceChanged(getSentencePosition(sentence));
         }
     }
-
+*/
     private Phrase findPhrase(String phraseString, Sentence thisSentence) {
         for (Phrase p : thisSentence.getPhrases()) {
             if (p.toString().equals(phraseString)) {

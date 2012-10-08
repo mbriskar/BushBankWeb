@@ -32,15 +32,14 @@ public class AnaphoraTable extends VerticalLayout {
 
     List<Anaphora> anaphoras;
     Table table = new Table();
-    final PopupView popup;
+   // final PopupView popup;
     NxtCorpusManager corpus;
     
     private static String tableTitleCss ="tableTitle";
     private static String popUpTitleCss ="popupTitle";
 
-    public AnaphoraTable(List<Sentence> threeLastSentences, final NxtCorpusManager corpus) {
+    public AnaphoraTable(List<Sentence> beforeSentences, Sentence thisSentence, Sentence afterSentence, final NxtCorpusManager corpus) {
         this.corpus = corpus;
-        Sentence thisSentence = threeLastSentences.get(threeLastSentences.size() - 1);
         this.anaphoras = thisSentence.getAnaphoras();
         setSpacing(true);
         final Label value = new Label("Anafory");
@@ -53,8 +52,8 @@ public class AnaphoraTable extends VerticalLayout {
         table.setImmediate(true); // react at once when something is selected
         table.addContainerProperty("Poradie", Integer.class, null);
         table.addContainerProperty("ID", String.class, null);
-        table.addContainerProperty("Token", String.class, null);
-        table.addContainerProperty("Fráza", String.class, null);
+        table.addContainerProperty("Poiner", String.class, null);
+        table.addContainerProperty("Target", String.class, null);
         table.setSelectable(true);
         addComponent(table);
         setComponentAlignment(table, Alignment.MIDDLE_CENTER);
@@ -73,15 +72,15 @@ public class AnaphoraTable extends VerticalLayout {
         buttons.setComponentAlignment(deleteAnaphora, Alignment.MIDDLE_RIGHT);
 
 
-        popup = new PopupView(new AnaphoraSavePopUp(threeLastSentences));
-        popup.setHideOnMouseOut(false);
-        addComponent(popup);
-        addAnaphora.addListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                popup.setPopupVisible(true);
-            }
-        });
+       // popup = new PopupView(new AnaphoraSavePopUp(beforeSentences));
+       // popup.setHideOnMouseOut(false);
+      //  addComponent(popup);
+       // addAnaphora.addListener(new Button.ClickListener() {
+      //      @Override
+      //      public void buttonClick(Button.ClickEvent event) {
+      //          popup.setPopupVisible(true);
+      //      }
+     //   });
 
         deleteAnaphora.addListener(new Button.ClickListener() {
             @Override
@@ -126,11 +125,10 @@ public class AnaphoraTable extends VerticalLayout {
      * Called from application when sentence is changed. The table has to be filled
      * again.
      */
-    public void sentenceChanged(List<Sentence> threeLastSentences) {
-        Sentence thisSentence = threeLastSentences.get(threeLastSentences.size() - 1);
+    public void sentenceChanged(List<Sentence> threeLastSentences,Sentence thisSentence, Sentence afterSentence) {
         this.anaphoras = thisSentence.getAnaphoras();
         fillTable();
-        popup.setContent(new AnaphoraSavePopUp(threeLastSentences));
+        //popup.setContent(new AnaphoraSavePopUp(threeLastSentences));
     }
 
     /*
@@ -143,7 +141,7 @@ public class AnaphoraTable extends VerticalLayout {
         int i = 1;
         for (Anaphora a : anaphoras) {
             table.addItem(new Object[]{
-                        i, a.getId(), a.getToken().getWordForm(), a.getPhrase().toString()}, new Integer(i));
+                        i, a.getId(), a.getPointer().getWordForm(), a.getTarget().toString()}, new Integer(i));
             i++;
 
         }
@@ -207,11 +205,11 @@ public class AnaphoraTable extends VerticalLayout {
                     if ((tokensCombo.getValue() != null) && (!wordForm.getValue().equals(""))) {
                         getWindow().showNotification("Je vybraný token a zároveň vyplnený aj chýbajúci token");
                     } else if (tokensCombo.getValue() != null) {
-                        corpus.trySaveAnaphora((String) tokensCombo.getValue(), (String) phrasesCombo.getValue(), threeLastSentences);
-                        popup.setPopupVisible(false);
+                        //corpus.trySaveAnaphora((String) tokensCombo.getValue(), (String) phrasesCombo.getValue(), threeLastSentences);
+             //           popup.setPopupVisible(false);
                     } else {
-                        corpus.trySaveAnaphora((String) wordForm.getValue(), (String) phrasesCombo.getValue(), thisSentence);
-                        popup.setPopupVisible(false);
+                       // corpus.trySaveAnaphora((String) wordForm.getValue(), (String) phrasesCombo.getValue(), thisSentence);
+             //           popup.setPopupVisible(false);
                     }
                 }
             });

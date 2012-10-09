@@ -7,21 +7,16 @@ package com.example.vaadin.components.tables;
 import com.example.vaadin.corpusManager.NxtCorpusManager;
 import com.vaadin.data.Property;
 import com.vaadin.terminal.Sizeable;
-import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Alignment; 
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.PopupView;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import java.util.List;
 import org.bushbank.bushbank.core.Anaphora;
 import org.bushbank.bushbank.core.Phrase;
 import org.bushbank.bushbank.core.Sentence;
-import org.bushbank.bushbank.core.Token;
 
 /**
  * Responsible for: 1.Title above the table 2.Table 3.Buttons under the table
@@ -32,14 +27,13 @@ public class AnaphoraTable extends VerticalLayout {
 
     List<Anaphora> anaphoras;
     Table table = new Table();
-   // final PopupView popup;
-    NxtCorpusManager corpus;
+
+
     
     private static String tableTitleCss ="tableTitle";
-    private static String popUpTitleCss ="popupTitle";
 
-    public AnaphoraTable(List<Sentence> beforeSentences, Sentence thisSentence, Sentence afterSentence, final NxtCorpusManager corpus) {
-        this.corpus = corpus;
+    public AnaphoraTable( Sentence thisSentence, final NxtCorpusManager corpus) {
+
         this.anaphoras = thisSentence.getAnaphoras();
         setSpacing(true);
         final Label value = new Label("Anafory");
@@ -52,7 +46,7 @@ public class AnaphoraTable extends VerticalLayout {
         table.setImmediate(true); // react at once when something is selected
         table.addContainerProperty("Poradie", Integer.class, null);
         table.addContainerProperty("ID", String.class, null);
-        table.addContainerProperty("Poiner", String.class, null);
+        table.addContainerProperty("Pointer", String.class, null);
         table.addContainerProperty("Target", String.class, null);
         table.setSelectable(true);
         addComponent(table);
@@ -61,26 +55,12 @@ public class AnaphoraTable extends VerticalLayout {
 
         //buttons
         HorizontalLayout buttons = new HorizontalLayout();
-        addComponent(buttons);
-
-        Button addAnaphora = new Button("přidej Anaforu");
-        buttons.addComponent(addAnaphora);
-        buttons.setComponentAlignment(addAnaphora, Alignment.MIDDLE_LEFT);
+        addComponent(buttons);   
 
         Button deleteAnaphora = new Button("odeber Anaforu");
         buttons.addComponent(deleteAnaphora);
         buttons.setComponentAlignment(deleteAnaphora, Alignment.MIDDLE_RIGHT);
 
-
-       // popup = new PopupView(new AnaphoraSavePopUp(beforeSentences));
-       // popup.setHideOnMouseOut(false);
-      //  addComponent(popup);
-       // addAnaphora.addListener(new Button.ClickListener() {
-      //      @Override
-      //      public void buttonClick(Button.ClickEvent event) {
-      //          popup.setPopupVisible(true);
-      //      }
-     //   });
 
         deleteAnaphora.addListener(new Button.ClickListener() {
             @Override
@@ -94,7 +74,7 @@ public class AnaphoraTable extends VerticalLayout {
                     anaphoras.remove(selectedAnaphora);
                     fillTable();
                 }
-
+ 
             }
         });
     }
@@ -125,7 +105,7 @@ public class AnaphoraTable extends VerticalLayout {
      * Called from application when sentence is changed. The table has to be filled
      * again.
      */
-    public void sentenceChanged(List<Sentence> threeLastSentences,Sentence thisSentence, Sentence afterSentence) {
+    public void sentenceChanged(Sentence thisSentence) {
         this.anaphoras = thisSentence.getAnaphoras();
         fillTable();
         //popup.setContent(new AnaphoraSavePopUp(threeLastSentences));
@@ -148,79 +128,5 @@ public class AnaphoraTable extends VerticalLayout {
         table.setRowHeaderMode(Table.ROW_HEADER_MODE_ICON_ONLY);
     }
 
-    /*
-     * PopUp content of creating new Anaphora.
-     */
-    private class AnaphoraSavePopUp implements PopupView.Content {
-
-        private VerticalLayout root = new VerticalLayout();
-
-        public AnaphoraSavePopUp(final List<Sentence> threeLastSentences) {
-            root.setSizeUndefined();
-            root.setSpacing(true);
-            root.setMargin(true);
-
-            /*select token part*/
-            HorizontalLayout horizontalTokenPart = new HorizontalLayout();
-            horizontalTokenPart.setSpacing(true);
-            final Label selectToken = new Label("Token");
-            selectToken.setStyleName(popUpTitleCss);
-            root.addComponent(selectToken);
-            final ComboBox tokensCombo = new ComboBox("Vyber token");
-            for (Sentence s : threeLastSentences) {
-                for (Token t : s.getTokens()) {
-                    //TODO: iba zámená
-                    tokensCombo.addItem(t.getWordForm());
-                }
-            }
-            horizontalTokenPart.addComponent(tokensCombo);
-            Label label = new Label("alebo chýbajíci token");
-            horizontalTokenPart.addComponent(label);
-            horizontalTokenPart.setComponentAlignment(label, Alignment.MIDDLE_CENTER);
-            //missing token
-            VerticalLayout missingTokenLayout = new VerticalLayout();
-            horizontalTokenPart.addComponent(missingTokenLayout);
-            final TextField wordForm = new TextField("Slovo:");
-            wordForm.setImmediate(true);
-            missingTokenLayout.addComponent(wordForm);
-            root.addComponent(horizontalTokenPart);
-
-            /*select phrase part */
-            final Label selectPhrase = new Label("Fráza");
-            selectPhrase.setStyleName(popUpTitleCss);
-            root.addComponent(selectPhrase);
-            final ComboBox phrasesCombo = new ComboBox("Vyber frázu");
-            final Sentence thisSentence = threeLastSentences.get(threeLastSentences.size() - 1);
-            for (Phrase p : thisSentence.getPhrases()) {
-                //TODO: iba zámená
-                phrasesCombo.addItem(p.toString());
-            }
-            root.addComponent(phrasesCombo);
-            Button saveAnaphora = new Button("Vytvor");
-            root.addComponent(saveAnaphora);
-            root.setComponentAlignment(saveAnaphora, Alignment.MIDDLE_CENTER);
-            saveAnaphora.addListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    if ((tokensCombo.getValue() != null) && (!wordForm.getValue().equals(""))) {
-                        getWindow().showNotification("Je vybraný token a zároveň vyplnený aj chýbajúci token");
-                    } else if (tokensCombo.getValue() != null) {
-                        //corpus.trySaveAnaphora((String) tokensCombo.getValue(), (String) phrasesCombo.getValue(), threeLastSentences);
-             //           popup.setPopupVisible(false);
-                    } else {
-                       // corpus.trySaveAnaphora((String) wordForm.getValue(), (String) phrasesCombo.getValue(), thisSentence);
-             //           popup.setPopupVisible(false);
-                    }
-                }
-            });
-        }
-
-        public String getMinimizedValueAsHTML() {
-            return "";
-        }
-
-        public Component getPopupComponent() {
-            return root;
-        }
-    };
+   
 }

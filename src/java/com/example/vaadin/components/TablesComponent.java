@@ -31,14 +31,14 @@ public class TablesComponent extends VerticalLayout{
     public TablesComponent(List<Sentence> beforeSentences, Sentence selectedSentence, Sentence afterSentence, NxtCorpusManager corpus) {
         tokenTable = new TokenTable(selectedSentence.getTokens());
         phraseTable = new PhraseTable(selectedSentence.getPhrases());
-        anaphoraTable = new AnaphoraTable(beforeSentences, selectedSentence, afterSentence, corpus);
+        anaphoraTable = new AnaphoraTable(selectedSentence, corpus);
         drawTables();
     }
 
     void setSentences(List<Sentence> beforeSentences, Sentence thisSentence, Sentence afterSentence) {
         tokenTable.setTokens(thisSentence.getTokens());
         phraseTable.setPhrases(thisSentence.getPhrases());
-        anaphoraTable.sentenceChanged(beforeSentences, thisSentence, afterSentence);
+        anaphoraTable.sentenceChanged(thisSentence);
         removeAllComponents();
         drawTables();
 

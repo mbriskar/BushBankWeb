@@ -20,6 +20,8 @@ import org.bushbank.bushbank.core.Token;
  */
 public class CreateAnaphoraPopUp implements PopupView.Content {
 
+    public static final String LEFT_PADDING20PX_CSS = "leftPadding20px";
+
     private VerticalLayout root = new VerticalLayout();
     private final Token selectedPronoun;
     private final Token targetToken;
@@ -34,6 +36,7 @@ public class CreateAnaphoraPopUp implements PopupView.Content {
 
 
         HorizontalLayout horizontalTokensPart = new HorizontalLayout();
+        
         HorizontalLayout horizontalButtonPart = new HorizontalLayout();
         Label questionLabel = new Label("Skutočne chceš vytvoriť anaforu medzi nasledujúcimi tokenmi?");
         root.addComponent(questionLabel);
@@ -50,12 +53,13 @@ public class CreateAnaphoraPopUp implements PopupView.Content {
         token1.addComponent(tokenWordFormLabel);
 
         VerticalLayout token2 = new VerticalLayout();
+        token2.setStyleName(LEFT_PADDING20PX_CSS);
         horizontalTokensPart.addComponent(token2);
         titleLabel = new Label("2.Token");
         token2.addComponent(titleLabel);
-        tokenIdLabel = new Label("ID: " + selectedPronoun.getID());
+        tokenIdLabel = new Label("ID: " + targetToken.getID());
         token2.addComponent(tokenIdLabel);
-        tokenWordFormLabel = new Label("Slovo: " + selectedPronoun.getWordForm());
+        tokenWordFormLabel = new Label("Slovo: " + targetToken.getWordForm());
         token2.addComponent(tokenWordFormLabel);
 
         Button createButton = new Button("Ano");

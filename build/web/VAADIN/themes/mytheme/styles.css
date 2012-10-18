@@ -32,6 +32,11 @@
     padding-bottom: 50px;
 }
 
+.leftPadding20px {
+
+    padding-left: 20px;
+}
+
 .sentenceTitle {
     font-weight: bold;
     font-size: 16px;
@@ -73,6 +78,10 @@
 
 .v-horizontallayout-spacingTables .v-horizontallayout-spacing-on {
     padding-left: 40px;
+}
+
+.v-horizontallayout-tokenPopUpSpacing .v-horizontallayout-spacing-on {
+    padding-left: 20px;
 }
 
 

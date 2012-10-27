@@ -44,30 +44,18 @@ public class NxtCorpusManager {
         return corpus.getSentence(position);
     }
 
-    public void trySaveAnaphora(Token pointer, Token target, Sentence parentSentence) {
-        //Token and selected phrase
+    public void trySaveAnaphora(Token pointer, Token target, Sentence anaphoraParentSentence) {
 
         Anaphora anaphora = new Anaphora("1");
         anaphora.setPointer(pointer);
         anaphora.setTarget(target);
         if(corpus.trySaveAnaphora(anaphora)) {
-            parentSentence.addAnaphora(anaphora);
-            application.sentenceChanged(getSentencePosition(parentSentence));
+            anaphoraParentSentence.addAnaphora(anaphora);
+            application.sentenceChanged(getSentencePosition(anaphoraParentSentence));
         }
         
     }
-/*
-    public void trySaveAnaphora(String wordForm, String phraseWords, Sentence sentence) {
-        //missingToken and selected phrase
-        MissingToken token = new MissingToken(wordForm, wordForm);
-        Phrase phrase = findPhrase(phraseWords, sentence);
-        Anaphora anaphora = new Anaphora("id", token, phrase);
-        if (corpus.trySaveAnaphoraWithUnsavedMissingToken(anaphora, sentence)) {
-             sentence.addAnaphora(anaphora);
-             application.sentenceChanged(getSentencePosition(sentence));
-        }
-    }
-*/
+
     private Phrase findPhrase(String phraseString, Sentence thisSentence) {
         for (Phrase p : thisSentence.getPhrases()) {
             if (p.toString().equals(phraseString)) {
@@ -108,7 +96,20 @@ public class NxtCorpusManager {
         return position+1;
     }
 
-    public void deleteAnaphora(Anaphora selectedAnaphora) {
-        corpus.deleteObject(selectedAnaphora.getId());
+
+
+    public MissingToken createMissingToken(String wordForm,Sentence sentence) {
+        MissingToken mt = new MissingToken("",wordForm);
+        mt =corpus.trySaveMissingToken(mt, sentence);
+        if(mt!=null) {
+            sentence.add(mt);
+        }
+        
+        return mt;
+        
+    }
+
+    public void deleteObject(String id) {
+        corpus.deleteObject(id);
     }
 }

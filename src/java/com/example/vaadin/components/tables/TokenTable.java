@@ -57,12 +57,13 @@ public final class TokenTable extends VerticalLayout {
         table.setImmediate(true);
         
         table.addContainerProperty("Poradie", String.class, null);
+        table.addContainerProperty("ID", String.class, null);
         table.addContainerProperty("Slovo", String.class, null);
         table.addContainerProperty("Morfológia", String.class, null);
         int i =1;
         for (Token t : tokens) {
             table.addItem(new Object[]{
-                        i, t.getWordForm(), t.getMorphology()}, new Integer(i));
+                        i,t.getID(), t.getWordForm(), t.getMorphology()}, new Integer(i));
             i++;
 
         }

@@ -10,9 +10,11 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.bushbank.bushbank.core.Phrase;
 import org.bushbank.bushbank.core.Sentence;
 import org.bushbank.bushbank.core.Token;
 
@@ -29,10 +31,13 @@ public class SentencesWriter extends VerticalLayout {
     private static String beforeSentenceTitleCss = "sentenceTitle";
     private static String bottomPaddingCss = "bottomPadding";
     private static String pronounCss = "pronoun";
+    private static String verbCss = "verb";
     private static String sentenceTokenCss = "sentenceToken";
     private static String selectedPronounCss = "selectedPronoun";
     CorpusDataComponent data;
     private Label selectedPronoun = null;
+
+
     private static Set<String> pronouns = new HashSet<String>() {
         {
             add("on");
@@ -42,6 +47,12 @@ public class SentencesWriter extends VerticalLayout {
             add("to");
         }
     };
+    
+    
+    /*
+     * Responsible for writing all the sentences (2 before, 1 current, 1 after).
+     * It consists of : reaction when the word is clicked and behave
+     */
 
     public SentencesWriter(List<Sentence> beforeSentences, Sentence thisSentence, Sentence afterSentence,CorpusDataComponent data) {
         this.data=data;
@@ -99,22 +110,33 @@ public class SentencesWriter extends VerticalLayout {
 
         //selected sentence label
         HorizontalLayout thisSentenceLayout = new HorizontalLayout();
+        final Set<String> selectableVerbIDs = getSelectableVerbs(sentence);
+        
         thisSentenceLayout.addListener(new LayoutEvents.LayoutClickListener() {
             @Override
             public void layoutClick(LayoutEvents.LayoutClickEvent event) {
                 if (event.getChildComponent() instanceof Label) {
                     Label label = (Label) event.getChildComponent();
-                    if (pronouns.contains((String) label.getValue())) { //if it is a pronoun
-                        if ((selectedPronoun != null) && (((String) label.getValue()).equals(selectedPronoun.getValue())) ) {
+                    String selectedWord=(String) label.getValue();
+                    if (pronouns.contains((String) selectedWord)) { //if it is a pronoun
+                        if ((selectedPronoun != null) && (label.equals(selectedPronoun)) ) {
                             pronounsCanceled(label);
                         } else {
                             pronounsClicked(event);
                         }
-                    } else {
+                    } else if ((selectedPronoun != null)){
                         pronounsTargetTokenSelected(event);
+                    } else if(selectableVerbIDs.contains(((Token)label.getData()).getID())){
+                        // if no pronoun selected but verb
+
+                            verbSelected(label);
+
+                        
                     }
                 }
             }
+
+           
         });
 
         thisSentenceLayout.setStyleName(bottomPaddingCss);
@@ -129,6 +151,8 @@ public class SentencesWriter extends VerticalLayout {
             thisSentenceLayout.setComponentAlignment(sentenceToken, Alignment.BOTTOM_CENTER);
             if (pronouns.contains(t.getWordForm())) {
                 sentenceToken.setStyleName(pronounCss);
+            } else if (selectableVerbIDs.contains(((Token)sentenceToken.getData()).getID())){
+                sentenceToken.setStyleName(verbCss);
             } else {
                 sentenceToken.setStyleName(sentenceTokenCss);
             }
@@ -184,9 +208,28 @@ public class SentencesWriter extends VerticalLayout {
 
     }
 
+     private void verbSelected(Label label) {
+          data.createMissingTokenFor((Token)label.getData());
+     }
+
+     
+    
+    
     private void pronounsCanceled(Label label) {
         getWindow().showNotification("Zámeno odznačené.");
         selectedPronoun = null;
         label.setStyleName(pronounCss);
+    }
+
+    private Set<String> getSelectableVerbs(Sentence sentence) {
+        Set<String> selectable= new HashSet<String>();
+        for (Phrase p:sentence.getPhrases()) {
+            if(p.getGrammarTag().equals("vp")) {
+                for(Token t :p.getTokens()) {
+                    selectable.add(t.getID());
+                }
+            }
+        }
+        return selectable;
     }
 }

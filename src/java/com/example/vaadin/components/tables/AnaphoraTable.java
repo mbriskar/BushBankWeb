@@ -70,7 +70,7 @@ public class AnaphoraTable extends VerticalLayout {
                 if (selectedAnaphora == null) {
                     getWindow().showNotification("Nie je označený riadok v tabuľke");
                 } else {
-                    corpus.deleteAnaphora(selectedAnaphora);
+                    corpus.deleteObject(selectedAnaphora.getId());
                     anaphoras.remove(selectedAnaphora);
                     fillTable();
                 }

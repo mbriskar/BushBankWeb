@@ -39,10 +39,10 @@ public class AnaphoraTable extends VerticalLayout {
         final Label value = new Label("Anafory");
         addComponent(value);
         value.setStyleName(tableTitleCss);
-        setComponentAlignment(value, Alignment.TOP_CENTER);
+        this.setComponentAlignment(value, Alignment.TOP_CENTER);
 
-        table.setWidth(Sizeable.SIZE_UNDEFINED, 0);
-        table.setHeight("170px");
+        table.setSizeFull();
+        //table.setHeight("170px");
         table.setImmediate(true); // react at once when something is selected
         table.addContainerProperty("Poradie", Integer.class, null);
         table.addContainerProperty("ID", String.class, null);
@@ -53,7 +53,7 @@ public class AnaphoraTable extends VerticalLayout {
         setComponentAlignment(table, Alignment.MIDDLE_CENTER);
         fillTable();
 
-        //buttons
+        //button
         HorizontalLayout buttons = new HorizontalLayout();
         addComponent(buttons);   
 
@@ -77,6 +77,12 @@ public class AnaphoraTable extends VerticalLayout {
  
             }
         });
+        
+        table.setCellStyleGenerator(new Table.CellStyleGenerator() {
+         public String getStyle(Object itemId, Object propertyId) {
+           return "tableText";
+    }
+    });
     }
 
     public Anaphora getSelectedAnaphora() {
@@ -108,7 +114,7 @@ public class AnaphoraTable extends VerticalLayout {
     public void sentenceChanged(Sentence thisSentence) {
         this.anaphoras = thisSentence.getAnaphoras();
         fillTable();
-        //popup.setContent(new AnaphoraSavePopUp(threeLastSentences));
+       
     }
 
     /*
@@ -116,8 +122,6 @@ public class AnaphoraTable extends VerticalLayout {
      */
     private void fillTable() {
         table.removeAllItems();
-
-        // connect data source
         int i = 1;
         for (Anaphora a : anaphoras) {
             table.addItem(new Object[]{

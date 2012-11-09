@@ -46,6 +46,7 @@ public class BushBank extends Application {
         data = new CorpusDataComponent(null,thisSentence, corpus.getSentence(1), corpus);
         mainWindow.addComponent(data);
         mainWindow.addListener(new Window.CloseListener() {
+            //to save corpus when exit was clicked
             private static final long serialVersionUID = 1L;
             @Override
             public void windowClose(CloseEvent e) {

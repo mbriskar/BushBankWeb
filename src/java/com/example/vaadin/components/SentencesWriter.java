@@ -4,6 +4,7 @@
  */
 package com.example.vaadin.components;
 
+import com.example.vaadin.components.popups.PopupManager;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Alignment;
@@ -34,7 +35,7 @@ public class SentencesWriter extends VerticalLayout {
     private static String verbCss = "verb";
     private static String sentenceTokenCss = "sentenceToken";
     private static String selectedPronounCss = "selectedPronoun";
-    CorpusDataComponent data;
+    PopupManager data;
     private Label selectedPronoun = null;
 
 
@@ -51,10 +52,10 @@ public class SentencesWriter extends VerticalLayout {
     
     /*
      * Responsible for writing all the sentences (2 before, 1 current, 1 after).
-     * It consists of : reaction when the word is clicked and behave
+     * Also reacts to words clicking.
      */
 
-    public SentencesWriter(List<Sentence> beforeSentences, Sentence thisSentence, Sentence afterSentence,CorpusDataComponent data) {
+    public SentencesWriter(List<Sentence> beforeSentences, Sentence thisSentence, Sentence afterSentence,PopupManager data) {
         this.data=data;
         sentence = thisSentence;
         this.beforeSentences = beforeSentences;
@@ -120,6 +121,7 @@ public class SentencesWriter extends VerticalLayout {
                     String selectedWord=(String) label.getValue();
                     if (pronouns.contains((String) selectedWord)) { //if it is a pronoun
                         if ((selectedPronoun != null) && (label.equals(selectedPronoun)) ) {
+                            getWindow().showNotification("Zámeno odznačené.");
                             pronounsCanceled(label);
                         } else {
                             pronounsClicked(event);
@@ -216,7 +218,7 @@ public class SentencesWriter extends VerticalLayout {
     
     
     private void pronounsCanceled(Label label) {
-        getWindow().showNotification("Zámeno odznačené.");
+       // getWindow().showNotification("Zámeno odznačené.");
         selectedPronoun = null;
         label.setStyleName(pronounCss);
     }

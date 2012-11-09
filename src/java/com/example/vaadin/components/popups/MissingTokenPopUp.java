@@ -22,21 +22,18 @@ import org.bushbank.bushbank.core.Token;
  */
 public class MissingTokenPopUp implements Content {
     
-    private final CorpusDataComponent data;
+    private final PopupManager manager;
     private VerticalLayout root = new VerticalLayout();
 
-    public MissingTokenPopUp(final CorpusDataComponent data, final Token verbToken) {
-        this.data=data;
-
-        
+    public MissingTokenPopUp(final PopupManager manager, final Token verbToken) {
+        this.manager=manager;
         root.setSizeUndefined();
-        
         root.setWidth("200px");
         root.setSpacing(true);
         root.setMargin(true);
         
-
-        
+        confirmMissingTokenCreation(verbToken);
+        /*
         Label questionLabel = new Label("Skutočne chceš vytvoriť nový missing token pre sloveso \""  + verbToken.getWordForm()+ "\"?");
         root.addComponent(questionLabel);
 
@@ -72,7 +69,7 @@ public class MissingTokenPopUp implements Content {
             }
         });
         horizontalButtonPart.addComponent(cancelButton);
-        horizontalButtonPart.setComponentAlignment(cancelButton, Alignment.MIDDLE_RIGHT);
+        horizontalButtonPart.setComponentAlignment(cancelButton, Alignment.MIDDLE_RIGHT);*/
     }
 
     @Override
@@ -83,6 +80,40 @@ public class MissingTokenPopUp implements Content {
     @Override
     public Component getPopupComponent() {
         return root;
+    }
+
+    private void confirmMissingTokenCreation(final Token verbToken) {
+         Label questionLabel = new Label("Skutočne chceš vytvoriť nový missing token pre sloveso \""  + verbToken.getWordForm()+ "\"?");
+         root.addComponent(questionLabel);
+         
+         
+        Button yesButton = new Button("Ano");
+        yesButton.addListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                missingTokenConfirmed(verbToken);
+                
+            }
+        });
+        HorizontalLayout horizontalButtonPart = new HorizontalLayout();
+        root.addComponent(horizontalButtonPart);
+        horizontalButtonPart.addComponent(yesButton);
+        horizontalButtonPart.setComponentAlignment(yesButton, Alignment.MIDDLE_LEFT);
+        Button cancelButton = new Button("Ne");
+        cancelButton.addListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+               root.setVisible(false);
+               manager.notapprovedMissingToken();
+            }
+        });
+        horizontalButtonPart.addComponent(cancelButton);
+        horizontalButtonPart.setComponentAlignment(cancelButton, Alignment.MIDDLE_RIGHT);
+    }
+    
+    private void missingTokenConfirmed(Token verbToken) { 
+        
+        
     }
     
 }

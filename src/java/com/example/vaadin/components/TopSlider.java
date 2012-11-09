@@ -24,14 +24,14 @@ import java.util.logging.Logger;
 public class TopSlider extends VerticalLayout {
 
     final Slider slider;
-    
+     final Label value;
     private static String topSentenceNumberCss = "topSentenceNumber";
     
     public TopSlider(int max,final BushBank app) {
         setSpacing(true);
         setWidth("100%");
 
-        final Label value = new Label("1");
+        value = new Label("1");
         value.setStyleName(topSentenceNumberCss);
         value.setWidth("3em");
 
@@ -48,12 +48,9 @@ public class TopSlider extends VerticalLayout {
             }
         });
 
-        addComponent(value);
+        
         addComponent(slider);
         setExpandRatio(slider, 1);
-        
-        setComponentAlignment(value, Alignment.TOP_CENTER);
-        
         addComponent(drawButtons());
 
     }
@@ -90,9 +87,11 @@ public class TopSlider extends VerticalLayout {
         
         lay.setSizeFull();
         lay.addComponent(prev);
-        lay.setComponentAlignment(prev, Alignment.BOTTOM_LEFT);
+        lay.setComponentAlignment(prev, Alignment.TOP_LEFT);
+        lay.addComponent(value);
+        lay.setComponentAlignment(value, Alignment.BOTTOM_CENTER);
         lay.addComponent(next);
-        lay.setComponentAlignment(next, Alignment.BOTTOM_RIGHT);
+        lay.setComponentAlignment(next, Alignment.TOP_RIGHT);
         
         return lay;
     }

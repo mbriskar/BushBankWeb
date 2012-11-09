@@ -8,32 +8,26 @@
 
 @import "../reindeer/styles.css";
 
-
 .topSentenceNumber {
     font-size: 12px;
-    
     padding-bottom: 50px;
 }
 
-.sentence {
-    font-size: 16px;
-    line-height: normal;
-}
-
-.sentenceToken {
+.sentence, .sentenceToken, .pronoun, .selectedPronoun, .verb{
     font-size: 16px;
     line-height: normal;
     padding-left: 5px;
 }
 
+.pronoun, .selectedPronoun, .verb { 	
+    font-weight: bold;
+}
 
 .bottomPadding {
-
     padding-bottom: 50px;
 }
 
 .leftPadding20px {
-
     padding-left: 20px;
 }
 
@@ -43,20 +37,12 @@
     line-height: normal;
 }
 
-.pronoun { 	
+.pronoun{
     color: #0000FF;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: normal;
-    padding-left: 5px;
 }
 
 .verb { 	
     color: #FF00FF;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: normal;
-    padding-left: 5px;
 }
 
 .tableTitle {
@@ -66,19 +52,18 @@
 
 .selectedPronoun {
     color: #33FF00;
-    font-weight: bold;
-    font-size: 16px;
-    position: relative; 
     text-decoration:underline;
-    padding-left: 5px;
+
 }
 .popupMiddle{
    position:absolute;
     top:50%;
     left:40%;
 
-    
+}
 
+.v-table-cell-content-tableText{
+    font-size: 14px;
 }
 .popupTitle {
     font-size: 16px;

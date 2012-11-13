@@ -34,7 +34,7 @@ public final class CorpusDataComponent extends VerticalLayout {
         this.beforeSentences = beforeSentences;
         this.thisSentence = thisSentence;
         this.afterSentence = afterSentence;
-        popupManager = new PopupManager(corpus, beforeSentences, thisSentence, afterSentence);
+        popupManager = new PopupManager(corpus, sentences, beforeSentences, thisSentence, afterSentence);
         sentences = new SentencesWriter(beforeSentences, thisSentence, afterSentence, popupManager);
         tables = new TablesComponent(beforeSentences, thisSentence, afterSentence, corpus);
         

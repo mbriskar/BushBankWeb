@@ -112,7 +112,8 @@ public class MissingTokenPopUp implements Content {
     }
     
     private void missingTokenConfirmed(Token verbToken) { 
-        
+        //verbToken is the clicked verb
+        manager.approvedMissingToken(verbToken);
         
     }
     

@@ -15,6 +15,7 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import java.util.List;
 import org.bushbank.bushbank.core.Anaphora;
+import org.bushbank.bushbank.core.MissingToken;
 import org.bushbank.bushbank.core.Phrase;
 import org.bushbank.bushbank.core.Sentence;
 
@@ -125,7 +126,7 @@ public class AnaphoraTable extends VerticalLayout {
         int i = 1;
         for (Anaphora a : anaphoras) {
             table.addItem(new Object[]{
-                        i, a.getId(), a.getPointer().getWordForm(), a.getTarget().toString()}, new Integer(i));
+                        i, a.getId(),a.getPointer() instanceof MissingToken? "MT:"+a.getPointer().getID() : a.getPointer().getWordForm(), a.getTarget().toString()}, new Integer(i));
             i++;
 
         }

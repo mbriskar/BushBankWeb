@@ -5,6 +5,7 @@
 package com.example.vaadin.components.popups;
 
 import com.example.vaadin.components.CorpusDataComponent;
+import com.example.vaadin.components.SentencesWriter;
 import com.example.vaadin.corpusManager.NxtCorpusManager;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.PopupView;
@@ -29,9 +30,11 @@ public class PopupManager extends VerticalLayout{
     private Sentence afterSentence;
     private Sentence thisSentence;
     private List<Sentence> beforeSentences;
+    private SentencesWriter sentencesWriter;
     
-    public PopupManager(NxtCorpusManager corpus, List<Sentence> beforeSentences, Sentence thisSentence, Sentence afterSentence) {
+    public PopupManager(NxtCorpusManager corpus, SentencesWriter sentencesWriter, List<Sentence> beforeSentences, Sentence thisSentence, Sentence afterSentence) {
         this.beforeSentences=beforeSentences;
+        this.sentencesWriter=sentencesWriter;
         this.thisSentence = thisSentence;
         this.afterSentence=afterSentence;
         this.corpus=corpus;
@@ -108,14 +111,22 @@ public class PopupManager extends VerticalLayout{
         missingTokenPopup.setPopupVisible(true);
     }
     //called only from MissingToken popup
+    /*
     public void approvedMissingToken(String wordForm, Token verbToken) {
         MissingToken token =corpus.createMissingToken(wordForm,thisSentence);
         missingTokenPopup.setPopupVisible(false);
         createdToken=token;
         createAnaphora(verbToken, token);
     }
+    */
     //called only from MissingToken popup
     public void notapprovedMissingToken() {
+        missingTokenPopup.setPopupVisible(false);
+    }
+
+    void approvedMissingToken(Token verbToken) {
+        MissingToken token =corpus.createMissingToken(verbToken,thisSentence);
+        
         missingTokenPopup.setPopupVisible(false);
     }
 

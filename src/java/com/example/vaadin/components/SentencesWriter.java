@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.bushbank.bushbank.core.MissingToken;
 import org.bushbank.bushbank.core.Phrase;
 import org.bushbank.bushbank.core.Sentence;
 import org.bushbank.bushbank.core.Token;
@@ -119,7 +120,7 @@ public class SentencesWriter extends VerticalLayout {
                 if (event.getChildComponent() instanceof Label) {
                     Label label = (Label) event.getChildComponent();
                     String selectedWord=(String) label.getValue();
-                    if (pronouns.contains((String) selectedWord)) { //if it is a pronoun
+                    if (isPronoun((String) selectedWord)) { //if it is a pronoun
                         if ((selectedPronoun != null) && (label.equals(selectedPronoun)) ) {
                             getWindow().showNotification("Zámeno odznačené.");
                             pronounsCanceled(label);
@@ -145,13 +146,18 @@ public class SentencesWriter extends VerticalLayout {
         Label beforeSentence = new Label("Vybratá veta:   ");
         thisSentenceLayout.addComponent(beforeSentence);
         thisSentenceLayout.setComponentAlignment(beforeSentence, Alignment.BOTTOM_CENTER);
-        for (Token t : sentence.getNotMissingTokens()) {
-            Label sentenceToken = new Label(t.getWordForm());
+        for (Token t : sentence.getTokens()) {
+            Label sentenceToken;
+            if(t instanceof MissingToken) {
+                sentenceToken = new Label("(MT:\"" +  t.getID() + "\")");
+            } else {
+                sentenceToken = new Label(t.getWordForm());
+            }
             sentenceToken.setData(t);
             sentenceToken.setSizeUndefined();
             thisSentenceLayout.addComponent(sentenceToken);
             thisSentenceLayout.setComponentAlignment(sentenceToken, Alignment.BOTTOM_CENTER);
-            if (pronouns.contains(t.getWordForm())) {
+            if (isPronoun((String)sentenceToken.getValue())) {
                 sentenceToken.setStyleName(pronounCss);
             } else if (selectableVerbIDs.contains(((Token)sentenceToken.getData()).getID())){
                 sentenceToken.setStyleName(verbCss);
@@ -192,7 +198,7 @@ public class SentencesWriter extends VerticalLayout {
         }
     }
 
-    private void pronounsClicked(LayoutEvents.LayoutClickEvent event) {
+    public void pronounsClicked(LayoutEvents.LayoutClickEvent event) {
         Label label = (Label) event.getChildComponent();
         label.setStyleName(selectedPronounCss);
         selectedPronoun = label;
@@ -209,6 +215,18 @@ public class SentencesWriter extends VerticalLayout {
         }
 
     }
+    
+    public boolean isPronoun(String pronoun) {
+        if(pronoun == null) {
+            return false;
+        }
+       if( pronouns.contains(pronoun) || (pronoun.contains("MT:") )) {
+           return true;
+       } else {
+           return false;
+       }
+
+    }
 
      private void verbSelected(Label label) {
           data.createMissingTokenFor((Token)label.getData());
@@ -223,6 +241,9 @@ public class SentencesWriter extends VerticalLayout {
         label.setStyleName(pronounCss);
     }
 
+    public void addPronoun(String pronoun) {
+        pronouns.add(pronoun);
+    }
     private Set<String> getSelectableVerbs(Sentence sentence) {
         Set<String> selectable= new HashSet<String>();
         for (Phrase p:sentence.getPhrases()) {

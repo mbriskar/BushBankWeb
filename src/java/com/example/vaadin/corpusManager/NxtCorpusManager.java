@@ -112,4 +112,26 @@ public class NxtCorpusManager {
     public void deleteObject(String id) {
         corpus.deleteObject(id);
     }
+
+    /**
+     * 
+     * @param verbToken Missing token will be added before the afterToken.
+     * @param thisSentence parentSentence of the missing Token
+     * @return 
+     */
+    public MissingToken createMissingToken(Token afterToken, Sentence parentSentence) {
+        MissingToken mt = new MissingToken("");
+        mt =corpus.trySaveMissingTokenBeforeToken(mt, afterToken, parentSentence);
+        if(mt!=null) {
+            int index =parentSentence.getTokens().lastIndexOf(afterToken);
+            if (index >=0) {
+                parentSentence.add(index, mt);
+                application.sentenceChanged(getSentencePosition(parentSentence));
+            }
+            
+        }
+        
+        
+        return mt;
+    }
 }

@@ -8,14 +8,10 @@
 
 @import "../reindeer/styles.css";
 
-
 .topSentenceNumber {
     font-size: 12px;
-    
     padding-bottom: 50px;
 }
-
-
 
 .sentence, .sentenceToken, .pronoun, .selectedPronoun, .verb{
     font-size: 16px;
@@ -26,7 +22,6 @@
 .pronoun, .selectedPronoun, .verb { 	
     font-weight: bold;
 }
-
 
 .bottomPadding {
     padding-bottom: 50px;
@@ -41,8 +36,6 @@
     font-size: 16px;
     line-height: normal;
 }
-
-
 
 .pronoun{
     color: #0000FF;

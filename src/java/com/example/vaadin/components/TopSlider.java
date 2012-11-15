@@ -6,6 +6,7 @@ package com.example.vaadin.components;
 
 
 import com.example.vaadin.BushBank;
+import com.example.vaadin.windows.MainWindow;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Alignment;
@@ -27,7 +28,7 @@ public class TopSlider extends VerticalLayout {
      final Label value;
     private static String topSentenceNumberCss = "topSentenceNumber";
     
-    public TopSlider(int max,final BushBank app) {
+    public TopSlider(int max,final MainWindow window) {
         setSpacing(true);
         setWidth("100%");
 
@@ -44,7 +45,7 @@ public class TopSlider extends VerticalLayout {
 
             public void valueChange(ValueChangeEvent event) {
                 value.setValue(((Double)event.getProperty().getValue()).intValue());
-                app.sentenceChanged(((Double)event.getProperty().getValue()).intValue());
+                window.sentenceChanged(((Double)event.getProperty().getValue()).intValue());
             }
         });
 
@@ -54,7 +55,8 @@ public class TopSlider extends VerticalLayout {
         addComponent(drawButtons());
 
     }
-    
+
+
     private HorizontalLayout drawButtons() {
         HorizontalLayout lay = new HorizontalLayout();
         

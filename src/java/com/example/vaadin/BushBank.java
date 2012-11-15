@@ -8,12 +8,11 @@ package com.example.vaadin;
 import com.example.vaadin.components.CorpusDataComponent;
 import com.example.vaadin.components.TopSlider;
 import com.example.vaadin.corpusManager.NxtCorpusManager;
+import com.example.vaadin.user.UserManager;
+import com.example.vaadin.windows.LoginWindow;
+import com.example.vaadin.windows.MainWindow;
 import com.vaadin.Application;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Window.CloseEvent;
-import java.util.ArrayList;
-import java.util.List;
-import org.bushbank.bushbank.core.Sentence;
+import com.vaadin.terminal.ExternalResource;
 
 /**
  *
@@ -23,9 +22,9 @@ import org.bushbank.bushbank.core.Sentence;
 public class BushBank extends Application {
 
     NxtCorpusManager corpus;
-    TopSlider slider;
-    CorpusDataComponent data;
-    
+    MainWindow mainWindow;
+    LoginWindow loginWindow;
+    UserManager userManager;
     // STRINGS :
     private static String themeDirectory="mytheme";
     private static String praseXmlPath="NxtFiles/prase.xml";
@@ -33,50 +32,35 @@ public class BushBank extends Application {
     //
     @Override
     public void init() {
-
-
-        Window mainWindow = new Window("BushBank");
-        setTheme(themeDirectory);
-        setMainWindow(mainWindow);
+        userManager= new UserManager(this);
         corpus = new NxtCorpusManager(praseXmlPath, observation,this);
-        slider = new TopSlider(corpus.getSentenceCount(), this);
-        mainWindow.addComponent(slider);
-        //this is first
-        Sentence thisSentence = corpus.getSentence(0);
-        data = new CorpusDataComponent(null,thisSentence, corpus.getSentence(1), corpus);
-        mainWindow.addComponent(data);
-        mainWindow.addListener(new Window.CloseListener() {
-            //to save corpus when exit was clicked
-            private static final long serialVersionUID = 1L;
-            @Override
-            public void windowClose(CloseEvent e) {
-                corpus.saveChanges();
-            }
-        });
+        loginWindow = new LoginWindow(userManager,this);
+        setTheme(themeDirectory);
+        setMainWindow(loginWindow);
 
+    }
+    
+    public void sentenceChanged(int intValue) {
+        mainWindow.sentenceChanged(intValue);
+    }
+
+    public void loginChecked() {
+        if(mainWindow == null) {
+            mainWindow = new MainWindow(this,corpus.getSentenceCount(), corpus,userManager);
+        }
+         getMainWindow().open(new ExternalResource(getURL()));
+         setMainWindow(mainWindow);
+    }
+
+    public void logout() {
+        
+        getMainWindow().open(new ExternalResource(getURL()));
+        setMainWindow(loginWindow);
     }
     
 
 
-    public void sentenceChanged(int intValue) {
-        List<Sentence> beforeSentences = new ArrayList<Sentence>();
-        Sentence thisSentence=null;
-        Sentence afterSentence=null;
-        if ((intValue - 3) >= 0) {
-            beforeSentences.add(corpus.getSentence(intValue - 3));
-        }
-        if ((intValue - 2) >= 0) {
-            beforeSentences.add(corpus.getSentence(intValue - 2));
-        }
-        if ((intValue - 1) >= 0) {
-            thisSentence=corpus.getSentence(intValue - 1);
-        }
-        
-        if(intValue < corpus.getSentenceCount()) {
-            afterSentence=corpus.getSentence(intValue);
-        }
-        data.setSentences(beforeSentences,thisSentence,afterSentence);
-    }
+   
     
     
 }

@@ -22,10 +22,7 @@ public class UserManager {
      }
     
     public boolean checkLogin(String user, String password) {
-        if("admin".equals(user) && "admin".equals(password)) {
-            userOnline="admin";
-            return true;
-        }
+
         if(getUsers().contains(user)) {
             userOnline=user;
             return true;

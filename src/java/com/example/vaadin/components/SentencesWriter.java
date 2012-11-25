@@ -4,7 +4,7 @@
  */
 package com.example.vaadin.components;
 
-import com.example.vaadin.components.popups.PopupManager;
+import com.example.vaadin.components.popups.DataComponentPopupManager;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Alignment;
@@ -36,7 +36,7 @@ public class SentencesWriter extends VerticalLayout {
     private static String verbCss = "verb";
     private static String sentenceTokenCss = "sentenceToken";
     private static String selectedPronounCss = "selectedPronoun";
-    PopupManager data;
+    DataComponentPopupManager data;
     private Label selectedPronoun = null;
 
 
@@ -56,7 +56,7 @@ public class SentencesWriter extends VerticalLayout {
      * Also reacts to words clicking.
      */
 
-    public SentencesWriter(List<Sentence> beforeSentences, Sentence thisSentence, Sentence afterSentence,PopupManager data) {
+    public SentencesWriter(List<Sentence> beforeSentences, Sentence thisSentence, Sentence afterSentence,DataComponentPopupManager data) {
         this.data=data;
         sentence = thisSentence;
         this.beforeSentences = beforeSentences;

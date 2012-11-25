@@ -16,11 +16,13 @@ import org.bushbank.bushbank.core.Sentence;
 import org.bushbank.bushbank.core.Token;
 
 /**
- * Responsible for all the popups, which shows during the anaphora/missing token creation.
+ * Responsible for all the popups, which shows during the anaphora/missing token
+ * creation.
  *
  * @author Mato
  */
-public class PopupManager extends VerticalLayout{
+public class DataComponentPopupManager extends VerticalLayout {
+
     public static final String POPUP_MIDDLE_CSS = "popupMiddle";
     PopupView anaphoraPopup;
     PopupView missingTokenPopup;
@@ -31,16 +33,18 @@ public class PopupManager extends VerticalLayout{
     private Sentence thisSentence;
     private List<Sentence> beforeSentences;
     private SentencesWriter sentencesWriter;
-    
-    public PopupManager(NxtCorpusManager corpus, SentencesWriter sentencesWriter, List<Sentence> beforeSentences, Sentence thisSentence, Sentence afterSentence) {
-        this.beforeSentences=beforeSentences;
-        this.sentencesWriter=sentencesWriter;
+
+    public DataComponentPopupManager(NxtCorpusManager corpus, SentencesWriter sentencesWriter, List<Sentence> beforeSentences, Sentence thisSentence, Sentence afterSentence) {
+        this.beforeSentences = beforeSentences;
+        this.sentencesWriter = sentencesWriter;
         this.thisSentence = thisSentence;
-        this.afterSentence=afterSentence;
-        this.corpus=corpus;
+        this.afterSentence = afterSentence;
+        this.corpus = corpus;
     }
-    
-    public void setSentences(final List<Sentence> beforeSentences, final Sentence thisSentence, final Sentence afterSentence) {
+
+
+
+public void setSentences(final List<Sentence> beforeSentences, final Sentence thisSentence, final Sentence afterSentence) {
         this.beforeSentences=beforeSentences;
         this.thisSentence = thisSentence;
         this.afterSentence=afterSentence;
@@ -110,15 +114,7 @@ public class PopupManager extends VerticalLayout{
         missingTokenPopup.setHideOnMouseOut(false);
         missingTokenPopup.setPopupVisible(true);
     }
-    //called only from MissingToken popup
-    /*
-    public void approvedMissingToken(String wordForm, Token verbToken) {
-        MissingToken token =corpus.createMissingToken(wordForm,thisSentence);
-        missingTokenPopup.setPopupVisible(false);
-        createdToken=token;
-        createAnaphora(verbToken, token);
-    }
-    */
+
     //called only from MissingToken popup
     public void notapprovedMissingToken() {
         missingTokenPopup.setPopupVisible(false);

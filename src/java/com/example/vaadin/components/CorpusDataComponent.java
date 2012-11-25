@@ -5,7 +5,7 @@
 package com.example.vaadin.components;
 
 
-import com.example.vaadin.components.popups.PopupManager;
+import com.example.vaadin.components.popups.DataComponentPopupManager;
 import com.example.vaadin.components.tables.TablesComponent;
 import com.example.vaadin.corpusManager.NxtCorpusManager;
 import com.vaadin.ui.VerticalLayout;
@@ -22,7 +22,7 @@ public final class CorpusDataComponent extends VerticalLayout {
     //3 main parts (the one responsible for writing the sentences, the second for the tables, third is responsible for all the popups)
     SentencesWriter sentences;
     TablesComponent tables;
-    PopupManager popupManager;
+    DataComponentPopupManager popupManager;
     
     
     List<Sentence> beforeSentences;
@@ -34,7 +34,7 @@ public final class CorpusDataComponent extends VerticalLayout {
         this.beforeSentences = beforeSentences;
         this.thisSentence = thisSentence;
         this.afterSentence = afterSentence;
-        popupManager = new PopupManager(corpus, sentences, beforeSentences, thisSentence, afterSentence);
+        popupManager = new DataComponentPopupManager(corpus, sentences, beforeSentences, thisSentence, afterSentence);
         sentences = new SentencesWriter(beforeSentences, thisSentence, afterSentence, popupManager);
         tables = new TablesComponent(beforeSentences, thisSentence, afterSentence, corpus);
         

@@ -35,7 +35,7 @@ public class LoginWindow extends Window {
         {
             public void buttonClick ( Button.ClickEvent event )
             {
-                if(manager.checkLogin((String)password.getValue(),(String)login.getValue())) {
+                if(manager.checkLogin((String)login.getValue(),(String)password.getValue())) {
                     app.loginChecked();
                     clearForms();
                 } else {

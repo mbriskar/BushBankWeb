@@ -26,7 +26,7 @@ public class CreateAnaphoraPopUp implements PopupView.Content {
     private final Token selectedPronoun;
     private final Token targetToken;
 
-    public CreateAnaphoraPopUp(final Token selectedPronoun, final Token targetToken, final PopupManager data) {
+    public CreateAnaphoraPopUp(final Token selectedPronoun, final Token targetToken, final DataComponentPopupManager data) {
         this.selectedPronoun = selectedPronoun;
         this.targetToken = targetToken;
 

@@ -5,8 +5,9 @@
 package com.example.vaadin.corpusManager;
 
 import com.example.vaadin.BushBank;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.VerticalLayout;
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,14 +27,30 @@ public class NxtCorpusManager {
 
     NxtCorpus corpus;
     BushBank application;
+    public static String prefix="usersDirectory/";
+    private String currentCorpus="";
+    
+    
+     public NxtCorpusManager(BushBank app) {
+         application =app;
+     }
 
     public NxtCorpusManager(String metadataPath, String observationName, BushBank app) {
+        application=app;
+        changeCorpus(metadataPath, observationName);
+    }
+
+    public String getCurrentCorpus() {
+        return currentCorpus;
+    }
+    
+    public void changeCorpus(String metadataPath, String observationName) {
+        currentCorpus=metadataPath;
         try {
-            corpus = new NxtCorpus(metadataPath, observationName);
-            application=app;
+            corpus = new NxtCorpus(prefix+metadataPath + "/prase.xml", observationName);
         } catch (NxtException ex) {
             Logger.getLogger(NxtCorpusManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
 
     public int getSentenceCount() {
@@ -115,7 +132,7 @@ public class NxtCorpusManager {
 
     /**
      * 
-     * @param verbToken Missing token will be added before the afterToken.
+     * @param afterToken Missing token will be added before the afterToken.
      * @param thisSentence parentSentence of the missing Token
      * @return 
      */
@@ -134,4 +151,25 @@ public class NxtCorpusManager {
         
         return mt;
     }
+
+    public static List<String> getAvailableCorpuses(String userOnline) {
+        File dir = new File(NxtCorpusManager.prefix + userOnline); 
+        File[] subDirs = dir.listFiles(new FileFilter() {  
+            @Override
+        public boolean accept(File pathname) {  
+            return pathname.isDirectory();  
+         }  
+        }); 
+        List<String> subDirNames = new ArrayList<String>();
+        for (File subDir : subDirs) {  
+        subDirNames.add(subDir.getName());
+        System.out.println(subDir.getName());
+        }  
+        
+        return subDirNames;
+    }
+
+ 
+
+   
 }

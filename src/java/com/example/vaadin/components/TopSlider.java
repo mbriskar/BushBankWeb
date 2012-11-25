@@ -25,16 +25,16 @@ import java.util.logging.Logger;
 public class TopSlider extends VerticalLayout {
 
     final Slider slider;
-     final Label value;
+     final Label label;
     private static String topSentenceNumberCss = "topSentenceNumber";
     
     public TopSlider(int max,final MainWindow window) {
         setSpacing(true);
         setWidth("100%");
 
-        value = new Label("1");
-        value.setStyleName(topSentenceNumberCss);
-        value.setWidth("3em");
+        label = new Label("1");
+        label.setStyleName(topSentenceNumberCss);
+        label.setWidth("3em");
 
         slider = new Slider("Vyber vetu od 1 do " + max);
         slider.setWidth("100%");
@@ -44,7 +44,7 @@ public class TopSlider extends VerticalLayout {
         slider.addListener(new ValueChangeListener() {
 
             public void valueChange(ValueChangeEvent event) {
-                value.setValue(((Double)event.getProperty().getValue()).intValue());
+                label.setValue(((Double)event.getProperty().getValue()).intValue());
                 window.sentenceChanged(((Double)event.getProperty().getValue()).intValue());
             }
         });
@@ -90,12 +90,24 @@ public class TopSlider extends VerticalLayout {
         lay.setSizeFull();
         lay.addComponent(prev);
         lay.setComponentAlignment(prev, Alignment.TOP_LEFT);
-        lay.addComponent(value);
-        lay.setComponentAlignment(value, Alignment.BOTTOM_CENTER);
+        lay.addComponent(label);
+        lay.setComponentAlignment(label, Alignment.BOTTOM_CENTER);
         lay.addComponent(next);
         lay.setComponentAlignment(next, Alignment.TOP_RIGHT);
         
         return lay;
+    }
+    public void corpusChanged(int max) {
+        slider.setCaption("Vyber vetu od 1 do " + max);
+        setValue(1);
+    }
+    public void setValue(int number) {
+        try {
+            slider.setValue(number);
+        } catch (ValueOutOfBoundsException ex) {
+            Logger.getLogger(TopSlider.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        label.setValue(String.valueOf(number));
     }
 
 }

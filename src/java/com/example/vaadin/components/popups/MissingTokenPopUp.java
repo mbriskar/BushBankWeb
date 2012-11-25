@@ -22,10 +22,10 @@ import org.bushbank.bushbank.core.Token;
  */
 public class MissingTokenPopUp implements Content {
     
-    private final PopupManager manager;
+    private final DataComponentPopupManager manager;
     private VerticalLayout root = new VerticalLayout();
 
-    public MissingTokenPopUp(final PopupManager manager, final Token verbToken) {
+    public MissingTokenPopUp(final DataComponentPopupManager manager, final Token verbToken) {
         this.manager=manager;
         root.setSizeUndefined();
         root.setWidth("200px");

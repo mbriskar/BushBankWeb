@@ -24,6 +24,7 @@ import java.util.logging.Logger;
  */
 public class UserManager {
     public static final String VALUES_SPLIT_CHAR = ":";
+    public static final String VALUES_TEXTFILE_STRING = "values.txt";
 
     private String userOnline;
     private BushBank app;
@@ -73,7 +74,7 @@ public class UserManager {
     public Map<String, String> getValues(String user) {
         Map<String,String> map = new HashMap<String,String>();
         try {
-            FileInputStream fstream = new FileInputStream(NxtCorpusManager.prefix + "/" + user + "/" + "values.txt");
+            FileInputStream fstream = new FileInputStream(NxtCorpusManager.prefix + "/" + user + "/" + VALUES_TEXTFILE_STRING);
             BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
             String line;
             

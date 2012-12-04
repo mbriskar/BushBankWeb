@@ -134,5 +134,6 @@ public class MainWindow extends Window {
         slider.corpusChanged(corpus.getSentenceCount());
         sentenceChanged(1);
         currentCorpus.setValue(userManager.getUserOnline() + "/" + string);
+        userManager.reportPackageUse(string);
     }
 }

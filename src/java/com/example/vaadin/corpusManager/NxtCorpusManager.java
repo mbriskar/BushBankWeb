@@ -48,6 +48,7 @@ public class NxtCorpusManager {
         currentCorpus=metadataPath;
         try {
             corpus = new NxtCorpus(prefix+metadataPath + "/prase.xml", observationName);
+            
         } catch (NxtException ex) {
             Logger.getLogger(NxtCorpusManager.class.getName()).log(Level.SEVERE, null, ex);
         } 

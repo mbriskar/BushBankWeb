@@ -21,8 +21,8 @@ import com.vaadin.ui.Window;
 public class LoginWindow extends Window {
     
     private Button btnLogin = new Button("Login");
-    private TextField login = new TextField ( "Username");
-    private TextField password = new TextField ( "Password");
+    private TextField login = new TextField ( "Prihlasovacie meno");
+    private TextField password = new TextField ( "Heslo");
     UserManager manager;
     
     public LoginWindow(final UserManager manager,final BushBank app)

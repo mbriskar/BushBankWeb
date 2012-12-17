@@ -21,6 +21,7 @@ import java.util.List;
 
 public class SelectCorpusPopUp implements Content,
         Property.ValueChangeListener{
+    public static final String SELECT_CORPUS_TEXT_STRING = "Vyber korpus";
 
 
 
@@ -34,7 +35,7 @@ public class SelectCorpusPopUp implements Content,
         root.setSpacing(true);
         root.setMargin(true);
             
-        ComboBox l = new ComboBox("Please select a city");
+        ComboBox l = new ComboBox(SELECT_CORPUS_TEXT_STRING);
         for (int i = 0; i < corpusesAvailable.size(); i++) {
             l.addItem(corpusesAvailable.get(i));
         }

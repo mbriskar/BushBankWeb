@@ -14,6 +14,7 @@
 }
 
 .sentence, .sentenceToken, .pronoun, .selectedPronoun, .verb{
+    display:inline-block;
     font-size: 16px;
     line-height: normal;
     padding-left: 5px;
@@ -24,6 +25,7 @@
 }
 
 .bottomPadding {
+    display:inline-block;
     padding-bottom: 50px;
 }
 
@@ -32,6 +34,7 @@
 }
 
 .sentenceTitle {
+     display:inline-block;
     font-weight: bold;
     font-size: 16px;
     line-height: normal;

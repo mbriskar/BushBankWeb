@@ -8,6 +8,7 @@ import com.example.vaadin.components.popups.DataComponentPopupManager;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
@@ -82,8 +83,9 @@ public class SentencesWriter extends VerticalLayout {
             beforeSentenceVerLayout.setStyleName(bottomPaddingCss);
             addComponent(beforeSentenceVerLayout);
             setComponentAlignment(beforeSentenceVerLayout, Alignment.TOP_CENTER);
+            beforeSentenceVerLayout.setWidth("100%");
             for (Sentence s : beforeSentences) {
-                HorizontalLayout sentenceLayout = new HorizontalLayout();
+                CssLayout sentenceLayout = new CssLayout();
                 sentenceLayout.addListener(new LayoutEvents.LayoutClickListener() {
                 @Override
                 public void layoutClick(LayoutEvents.LayoutClickEvent event) {
@@ -95,6 +97,7 @@ public class SentencesWriter extends VerticalLayout {
                 beforeSentenceVerLayout.addComponent(sentenceLayout);
                 sentenceLayout.setWidth(Sizeable.SIZE_UNDEFINED, 0);
                 Label beforeSentence = new Label(counter + ". predošlá veta:   ");
+                beforeSentence.setSizeUndefined();
                 beforeSentence.setStyleName(beforeSentenceTitleCss);
                 sentenceLayout.addComponent(beforeSentence);
                 for (Token t : s.getNotMissingTokens()) {
@@ -102,7 +105,7 @@ public class SentencesWriter extends VerticalLayout {
                     sentenceToken.setData(t);
                     sentenceToken.setSizeUndefined();
                     sentenceLayout.addComponent(sentenceToken);
-                    sentenceLayout.setComponentAlignment(sentenceToken, Alignment.BOTTOM_CENTER);
+                   // sentenceLayout.setComponentAlignment(sentenceToken, Alignment.BOTTOM_CENTER);
                     sentenceToken.setStyleName(sentenceTokenCss);
 
                 }
@@ -111,7 +114,8 @@ public class SentencesWriter extends VerticalLayout {
         }
 
         //selected sentence label
-        HorizontalLayout thisSentenceLayout = new HorizontalLayout();
+        CssLayout thisSentenceLayout = new CssLayout();
+        
         final Set<String> selectableVerbIDs = getSelectableVerbs(sentence);
         
         thisSentenceLayout.addListener(new LayoutEvents.LayoutClickListener() {
@@ -144,8 +148,10 @@ public class SentencesWriter extends VerticalLayout {
 
         thisSentenceLayout.setStyleName(bottomPaddingCss);
         Label beforeSentence = new Label("Vybratá veta:   ");
+         beforeSentence.setSizeUndefined();
+         beforeSentence.setStyleName(beforeSentenceTitleCss);
         thisSentenceLayout.addComponent(beforeSentence);
-        thisSentenceLayout.setComponentAlignment(beforeSentence, Alignment.BOTTOM_CENTER);
+        //thisSentenceLayout.setComponentAlignment(beforeSentence, Alignment.BOTTOM_CENTER);
         for (Token t : sentence.getTokens()) {
             Label sentenceToken;
             if(t instanceof MissingToken) {
@@ -156,7 +162,7 @@ public class SentencesWriter extends VerticalLayout {
             sentenceToken.setData(t);
             sentenceToken.setSizeUndefined();
             thisSentenceLayout.addComponent(sentenceToken);
-            thisSentenceLayout.setComponentAlignment(sentenceToken, Alignment.BOTTOM_CENTER);
+            //thisSentenceLayout.setComponentAlignment(sentenceToken, Alignment.BOTTOM_CENTER);
             if (isPronoun((String)sentenceToken.getValue())) {
                 sentenceToken.setStyleName(pronounCss);
             } else if (selectableVerbIDs.contains(((Token)sentenceToken.getData()).getID())){
@@ -166,16 +172,19 @@ public class SentencesWriter extends VerticalLayout {
             }
 
         }
-        beforeSentence.setStyleName(beforeSentenceTitleCss);
-        thisSentenceLayout.setWidth(Sizeable.SIZE_UNDEFINED, 0);
+        
+        thisSentenceLayout.setWidth("100%");
+
+
         addComponent(thisSentenceLayout);
 
         //after sentence label
         if (afterSentence != null) {
-            HorizontalLayout afterSentenceLayout = new HorizontalLayout();
+            CssLayout afterSentenceLayout = new CssLayout();
             afterSentenceLayout.setStyleName(bottomPaddingCss);
             addComponent(afterSentenceLayout);
             Label beforeAfterSentence = new Label("Nasledujúca veta:   ");
+            beforeAfterSentence.setSizeUndefined();
             afterSentenceLayout.addComponent(beforeAfterSentence);
             beforeAfterSentence.setStyleName(beforeSentenceTitleCss);
             afterSentenceLayout.addListener(new LayoutEvents.LayoutClickListener() {
@@ -191,7 +200,7 @@ public class SentencesWriter extends VerticalLayout {
                 sentenceToken.setData(t);
                 sentenceToken.setSizeUndefined();
                 afterSentenceLayout.addComponent(sentenceToken);
-                afterSentenceLayout.setComponentAlignment(sentenceToken, Alignment.BOTTOM_CENTER);
+               // afterSentenceLayout.setComponentAlignment(sentenceToken, Alignment.BOTTOM_CENTER);
                 sentenceToken.setStyleName(sentenceTokenCss);
             }
 

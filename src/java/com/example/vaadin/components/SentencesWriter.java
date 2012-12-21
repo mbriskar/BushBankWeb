@@ -83,7 +83,7 @@ public class SentencesWriter extends VerticalLayout {
             beforeSentenceVerLayout.setStyleName(bottomPaddingCss);
             addComponent(beforeSentenceVerLayout);
             setComponentAlignment(beforeSentenceVerLayout, Alignment.TOP_CENTER);
-            beforeSentenceVerLayout.setWidth("100%");
+            
             for (Sentence s : beforeSentences) {
                 CssLayout sentenceLayout = new CssLayout();
                 sentenceLayout.addListener(new LayoutEvents.LayoutClickListener() {
@@ -95,7 +95,7 @@ public class SentencesWriter extends VerticalLayout {
                 }
             });
                 beforeSentenceVerLayout.addComponent(sentenceLayout);
-                sentenceLayout.setWidth(Sizeable.SIZE_UNDEFINED, 0);
+                
                 Label beforeSentence = new Label(counter + ". predošlá veta:   ");
                 beforeSentence.setSizeUndefined();
                 beforeSentence.setStyleName(beforeSentenceTitleCss);
@@ -173,7 +173,7 @@ public class SentencesWriter extends VerticalLayout {
 
         }
         
-        thisSentenceLayout.setWidth("100%");
+        
 
 
         addComponent(thisSentenceLayout);
